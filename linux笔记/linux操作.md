@@ -1,0 +1,898 @@
+# linux下的一些命令操作
+
+## 解压命令tar
+
+在[Linux系统](https://so.csdn.net/so/search?q=Linux系统&spm=1001.2101.3001.7020)中，`tar`[命令](https://so.csdn.net/so/search?q=命令&spm=1001.2101.3001.7020)用于创建、查看、提取和解压 tar 存档文件。以下是 `tar` 命令的一些常见用法：
+
+### 压缩文件或目录
+
+选项说明：
+
+- `-c`: 创建新的归档文件
+- `-z`: 使用 gzip 格式压缩/解压缩
+- `-j`: 使用 bzip2 格式压缩/解压缩
+- `-J`: 使用 xz 格式压缩/解压缩
+- `-v`: 显示详细信息
+- `-f`: 指定归档文件名
+
+```
+tar -czvf archive.tar.gz /path/to/directory # 压缩目录为 .tar.gz 格式的文件
+ 
+tar -czvf archive.tar.gz file1 file2 file3 # 压缩多个文件为 .tar.gz 格式的文件
+ 
+tar -cjvf archive.tar.bz2 /path/to/directory # 压缩目录为 .tar.bz2 格式的文件
+ 
+tar -cjvf archive.tar.bz2 file1 file2 file3 # 压缩多个文件为 .tar.bz2 格式的文件
+ 
+tar -cJvf archive.tar.xz /path/to/directory # 压缩目录为 .tar.xz 格式的文件
+ 
+tar -cJvf archive.tar.xz file1 file2 file3 # 压缩多个文件为 .tar.xz 格式的文件
+```
+
+### 解压文件
+
+选项说明：
+
+- `-x`: 提取文件
+- `-z`: 解压 gzip 格式
+- `-j`: 解压 bzip2 格式
+- `-J`: 解压 xz 格式
+- `-v`: 显示详细信息
+- `-f`: 指定要解压的文件名
+
+```
+tar -xzvf archive.tar.gz # 解压 .tar.gz 格式的文件
+ 
+tar -xjvf archive.tar.bz2 # 解压 .tar.bz2 格式的文件
+ 
+tar -xJvf archive.tar.xz # 解压 .tar.xz 格式的文件
+ 
+tar -xvf archive.tar # 解压 .tar 格式的文件
+```
+
+
+
+### 查看归档文件内容
+
+选项说明：
+
+- `-t`: 列出归档文件内容
+
+```
+tar -tvf archive.tar.gz # 查看 .tar.gz 归档文件内容
+ 
+tar -tvf archive.tar.bz2 # 查看 .tar.bz2 归档文件内容
+ 
+tar -tvf archive.tar.xz # 查看 .tar.xz 归档文件内容
+ 
+tar -tvf archive.tar # 查看 .tar 归档文件内容
+```
+
+## 复制命令cp
+
+
+- 路径以斜杆“/”开头，则第一个斜杆表示根，路径中的其他斜杆只是分隔符
+- .：表示当前目录。例如，./file.txt表示当前目录中的文件。
+- ..：表示上一级目录。例如，../parent_directory/file.txt表示上一级目录中的文件。
+- 目录名：表示当前目录中的子目录。例如，subdir/file.txt表示当前目录下的子目录中的文件。
+
+```
+-r：递归复制目录机器内容
+-f：强制复制
+-a：以归档模式复制，等同于 -dR --preserve=all，保留文件属性（包括符号链接、文件权限、时间戳等）
+-i：在覆盖文件之前进行确认
+-u：仅当源文件比目标文件新或目标文件不存在时才复制
+-v：在复制时显示详细信息
+-n：不覆盖已有文件
+-p：保留文件属性（权限、时间戳等）
+```
+
+
+
+### 复制单个文件
+
+- cp 源文件 目标目录
+- cp 源文件 目标目录/新文件名
+
+## rm命令
+
+```
+1、删除文件
+	rm filename # 删除单个文件名
+	rm -f test.* # 批量删除文件，且是强制删除
+2、删除文件夹
+	rmdir dirname # 删除空的文件夹
+	rm -rf dirname # 删除非空文件夹，-r是循环在dirname中删除文件
+```
+
+
+
+## sudo命令
+
+Linux sudo命令以系统管理者的身份执行指令，也就是说，经由 sudo 所执行的指令就好像是 root 亲自执行。
+
+```
+1、安装包/移除包
+	安装包：
+        sudo apt install 包名
+        包名 --version #查看安装的包名
+     移除包TODO：
+     	sudo apt remove pagename
+2、查看全部已经安装的包
+	sudo apt list --installed
+	该命令单独使用无太大意义，经常和grep命令联合使用如：
+		sudo apt list --installed | grep aarch64 #表示从所有安装的包中过滤出包名带有aarch64的包
+	sudo dpkg -l | grep pagename
+		也可看含有pagename的包
+3、查看指定目录下的所有文件路径
+	sudo find 指定目录地址（绝对地址） #输出该目录地址下的所有文件路径
+	该命令单独使用无太大意义，经常和grep命令联合使用如：
+		sudo find / | grep aarch64-linux-gnu-gcc #表示从根目录开始过滤出所有带有aarch64-linux-gnu-gcc的文件路径
+	举例：
+        rlk@rlk:~$ sudo find / | grep aarch64-linux-gnu-gcc
+        /home/rlk/tools/gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu/share/man/man1/aarch64-linux-gnu-gcc.1
+        /home/rlk/tools/gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc-ranlib
+        /home/rlk/tools/gcc-linaro-5.5.0-2017.10-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc-ar
+        ... ...
+
+		
+```
+
+
+
+## cat命令
+
+```
+1、查看一个文本文件的内容
+    cat 文件名
+2、将几个文本文件的内容串接在一起输出到某文件或者显示到终端
+    1、显示到终端：cat 文件1 文件2
+    2、输出到文件：cat 文件1 文件2  > 文件名
+3、新建一个文件
+    1、以EOF为结束标志   ：cat > 文件名 <<EOF
+    2、以eof为结束标志   ：cat > 文件名 <<eof
+    3、以ctrl+z为结束标志：cat > 文件名
+```
+
+## echo命令
+
+1、查看环境变量的值
+
+linux中常用的环境变量：
+
+- PATH：决定了系统在哪些目录中查找可执行文件。当你输入一个命令时，系统会在PATH中定义的目录中查找该命令的可执行文件。
+- HOME：指定当前用户的主目录路径。
+
+- USER：当前用户的用户名。
+
+- SHELL：指定当前用户默认使用的shell。
+
+- LANG：指定系统的默认语言。
+
+- LD_LIBRARY_PATH：指定系统在哪些目录中查找共享库文件。
+
+- TERM：指定当前终端的类型。
+
+- PS1：定义命令行提示符的格式。
+
+- PS2：定义多行命令的提示符的格式。
+
+```
+echo $PATH # 查看PATH环境变量的值
+```
+
+
+
+## whereis命令
+
+TODO
+
+## ps命令
+
+1. **`-e`** 或 **`-A`**：显示所有进程。
+
+   bash
+
+   复制
+
+   ```
+   ps -e
+   ```
+
+2. **`-f`**：以完整格式显示进程信息。
+
+   bash
+
+   复制
+
+   ```
+   ps -ef
+   ```
+
+3. **`-u`**：显示特定用户的进程。
+
+   bash
+
+   复制
+
+   ```
+   ps -u username
+   ```
+
+4. **`-aux`**：显示所有用户的进程，常用于查看进程的详细信息。
+
+   bash
+
+   复制
+
+   ```
+   ps aux
+   ```
+
+5. **`--sort`**：根据指定字段排序。例如，按内存使用量排序：
+
+   bash
+
+   复制
+
+   ```
+   ps aux --sort=-%mem
+   ```
+
+6. **`-o`**：自定义输出格式。例如，只显示 PID 和命令名称：
+
+   bash
+
+   复制
+
+   ```
+   ps -eo pid,comm
+   ```
+
+## ls命令
+
+## export命令
+
+添加指定环境变量（临时，shell关闭后就会消失）
+
+```
+export PATH=/.../.../bin:$PATH
+```
+
+可通过以下方法永久添加系统环境变量（需要root权限，针对所用用户，永久生效）
+
+```
+sudo passwd root # 输入当前用户密码
+su # 进入root用户
+# 以下添加环境变量
+vim /etc/profile
+export PATH="/opt/STM/STLinux-2.3/devkit/sh4/bin:$PATH"
+# 和./etc/profile类似都是执行文件profile中的语句
+source /etc/profile
+```
+
+## fdisk命令
+
+用于显示磁盘分区
+
+一般用fdisk -lu显示所有磁盘分区（-u表示为units）
+
+```
+使用sudo fdisk /dev/sda进入sda设备进行操作
+	常用如下：
+		-m（帮助）、-n（新建分区）、-d（删除分区）、-w（保存修改）、-q（退出不保存）
+通过fdisk对磁盘分区后，需要格式化、挂载到系统中才能使用
+	sudo mkfs.ext4 /dev/sdb1 #格式化为ext4格式
+	sudo mkdir /oracle、sudo mount /dev/sdb1 /oracle # 挂载到/oracle下
+通过df命令查看分区挂载情况
+	df -h
+```
+
+
+
+## dd命令
+
+dd命令的基本语法如下：
+
+dd if=<输入文件> of=<输出文件> [选项]
+1
+在这里，if代表输入文件，of代表输出文件。
+
+Linux dd命令的常用选项或参数说明
+以下是dd命令的一些常用选项：
+
+选项	描述
+if	输入文件
+of	输出文件
+bs	设置每次读写的字节数（块大小）
+count	设置写入的块数
+
+### 使用dd命令备份磁盘数据
+
+```
+#在linux中,/dev/zero是特殊的设备文件，提供无限的零字节流
+status=progress&&sync
+	progress:显示烧录进展
+	sync:将每个输入块填充到 ibs 个字节，不足部分用空（NUL）字符补齐,确保所有的写入缓存都被刷新到磁盘上，确保数据完整性。
+
+查看磁盘分区，确定要备份的磁盘
+	fdisk -lu
+使用dd命令备份磁盘
+	dd if=/dev/sda of=/dev/sdb status=progress
+	dd if=/dev/sda of=~/sda_bak.img status=progress
+	也可对img文件进行压缩
+		dd if=/dev/sda | gzip > sda_bak.img.gz
+获取磁盘数据
+	gzip -dc /sda_bak.img.gz | dd of=/dev/sda status=progress
+```
+
+### 使用dd命令制作启动盘
+
+```
+1. 插入U盘并确保其已经被正确挂载，可以使用以下命令查看已经挂载的设备：
+	df -h
+2. 使用以下命令卸载U盘，确保它不被任何程序使用：
+	umount /dev/sdX
+   	注意，其中的`/dev/sdX`是U盘的设备名称，具体名称可能是sda、sdb等，可以用`df -h`命令查看。
+3. 使用以下命令制作U盘启动盘，其中`/path/to/iso`是ISO文件的路径，`/dev/sdX`是U盘的设备名称：
+	sudo dd if=/path/to/iso of=/dev/sdX bs=4M status=progress && sync
+   	注意，这个命令会把整个U盘格式化，其中的所有数据都将被清空，请务必在执行前备份重要数据。
+4. 制作完成后，使用以下命令卸载U盘：
+	sudo umount /dev/sdX
+```
+
+
+
+### dd和cp的区别
+
+区别一如图，只会覆盖指定大小的空间，区别二则是dd是对块操作，而cp是对文件操作
+
+![image-20241104110516958](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20241104110516958.png)
+
+## mount\unmount命令
+
+ mount将新的文件系统关联至当前根文件系统，直接输入mount显示当前已挂载的文件系统。
+
+   umount将某文件系统与当前根文件系统的关联关系予以移除;
+
+```
+1．命令格式：
+
+mount:挂载
+
+ 格式： mount 设备 挂载点    Usage: mount /dev/sda5 /mnt/test
+
+        设备：
+
+            设备文件：/dev/sda5
+
+             卷标：LABEL=""
+
+              UUID：UUID=""
+
+         挂载点：目录
+
+             要求：
+
+                 1、此目录没有被其他进程使用；
+
+                 2、目录得事先存在；
+
+                 3、目录中的原有的文件将会暂时隐藏；
+
+  挂载完成后，要通过挂载点访问对应文件系统上的文件。
+
+直接输入mount：显示当前系统已经挂载的设备及挂载点；
+
+
+[root@xuelinux test]# mount
+
+/dev/sda2 on / type ext4 (rw)
+
+proc on /proc type proc (rw)
+
+sysfs on /sys type sysfs (rw)
+
+devpts on /dev/pts type devpts (rw,gid=5,mode=620)
+
+tmpfs on /dev/shm type tmpfs (rw,rootcontext="system_u:object_r:tmpfs_t:s0")
+
+/dev/sda1 on /boot type ext4 (rw)
+
+/dev/sda3 on /home type ext4 (rw)
+
+/dev/sda7 on /tmp type ext4 (rw)
+
+/dev/sda5 on /usr type ext4 (rw)
+
+none on /proc/sys/fs/binfmt_misc type binfmt_misc (rw)
+
+---------------------------------------------------------------------------------------
+umount：卸载某文件系统
+
+ 格式： umount 设备  或者  umount 挂载点  Usage: umount /dev/sda5 或者 umount /mnt/test
+
+    卸载注意事项：
+
+           挂载的设备没有进程使用；否则无法卸载。
+
+
+
+2．命令功能：
+
+mount将新的文件系统挂载关联至当前根文件系统,或者显示当前已经挂载的文件系统
+
+umount将某文件系统与当前根文件系统的关联关系予以移除;
+
+3．命令参数：
+
+mount [options] [-o options] device mount_point
+
+      -a：表示挂载/etc/fstab文件中定义的所有文件系统
+
+      -n：默认情况下，mount命令每挂载一个设备，都会把挂载的设备信息保存至/etc/mtab
+
+          文件；使用-n选项意味着挂载设备时，不把信息写入此文件；
+
+      -t FSTYPE(文件类型)：指定正在挂载设备上的文件系统的类型；不使用此选项时，mount会
+
+                           调用blkid命令获取对应文件系统的类型；
+
+      -r：只读挂载
+
+      -w：读写挂载，如果挂载的设备不支持写操作，直接挂载为读。
+
+      -o：指定额外的挂载选项，也即指定文件系统启用的属性。
+
+           remount：重新挂载当前文件系统
+
+            ro：挂载为只读
+
+            rw：挂载为读写
+
+            nosuid：禁止设置suid
+
+            loop：挂载本地回环设备
+
+
+
+4．命令实例：
+    1、mount /dev/sda5 /mnt/test
+    2、mount -o remount,ro /dev/sda5 重新挂载并挂载为只读
+```
+
+
+
+## apt命令
+
+### 1.1常识
+
+软件包后缀
+centos： *.rpm
+Ubuntu *.deb
+
+```javascript
+源配置文件：
+修改完源后需执行apt update
+Ubuntu: /etc/apt/sources.list
+清华大学: https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
+阿里云开源镜像站: https://developer.aliyun.com/mirror/ubuntu?spm=a2c6h.13651102.0.0.3e221b118zsOVM
+
+
+网卡配置文件:
+Ubuntu:  /etc/netplan/00-installer-config.yaml
+```
+
+### 1.2 apt软件包管理
+
+#### 1.2.1 安装软件包
+
+```ruby
+root@ubuntu-06:/etc/apt# apt install vim
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+vim is already the newest version (2:8.0.1453-1ubuntu1.8).
+vim set to manually installed.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+```
+
+#### 1.2.2 移除软件包
+
+```perl
+root@ubuntu-06:/etc/apt# apt remove curl -y
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following package was automatically installed and is no longer required:
+  libcurl4
+Use 'apt autoremove' to remove it.
+The following packages will be REMOVED:
+  curl pollinate ubuntu-server
+0 upgraded, 0 newly installed, 3 to remove and 0 not upgraded.
+After this operation, 500 kB disk space will be freed.
+(Reading database ... 67415 files and directories currently installed.)
+Removing ubuntu-server (1.417.5) ...
+Removing pollinate (4.33-0ubuntu1~18.04.2) ...
+Removing curl (7.58.0-2ubuntu3.19) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+```
+
+#### 1.2.3 移除软件包及配置文件
+
+```ruby
+root@ubuntu-06:/etc/apt# apt purge nginx
+```
+
+#### 1.2.4 刷新存储库
+
+```ruby
+root@ubuntu-06:/etc/apt# apt update
+```
+
+#### 1.2.5 升级所有可用软件包
+
+```perl
+apt upgrade
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Calculating upgrade... Done
+```
+
+#### 1.2.6 自动删除不需要的包
+
+```perl
+root@ubuntu-06:~# apt autoremove
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following packages will be REMOVED:
+```
+
+#### 1.2.7 在升级软件包自动处理依赖关系
+
+```ruby
+root@ubuntu-06:~# apt full-upgrade 
+```
+
+#### 1.2.8 搜索应用
+
+```ruby
+root@ubuntu-06:~# apt search nginx
+```
+
+#### 1.2.9 显示安装细节
+
+```makefile
+root@ubuntu-06:~# apt show nginx
+Package: nginx
+Version: 1.14.0-0ubuntu1.11
+Priority: optional
+Section: web
+Origin: Ubuntu
+```
+
+#### 1.2.10 列出所有包
+
+```ruby
+列出所有包
+root@ubuntu-06:~# apt list
+列出所有已安装的包
+root@ubuntu-06:/etc# apt list --installed
+
+列出所有可升级的包
+root@ubuntu-06:/etc# apt list --upgradable 
+```
+
+#### 1.2.11 安装源中指定的所有版本
+
+```scss
+root@ubuntu-06:/etc# apt-cache madison nginx
+nginx | 1.14.0-0ubuntu1.11 | http://mirrors.aliyun.com/ubuntu bionic-updates/main amd64 Packages
+nginx | 1.14.0-0ubuntu1.11 | http://mirrors.aliyun.com/ubuntu bionic-security/main amd64 Packages
+nginx | 1.14.0-0ubuntu1 | http://mirrors.aliyun.com/ubuntu bionic/main amd64 Packages
+
+查看这个包有哪些依赖
+root@ubuntu-06:/etc# apt-cache depends nginx
+nginx
+ |Depends: nginx-core
+ |Depends: nginx-full
+ |Depends: nginx-light
+  Depends: nginx-extras
+ |Depends: nginx-core
+ |Depends: nginx-full
+ |Depends: nginx-light
+  Depends: nginx-extras
+```
+
+### 1.3 dpkg包管理
+
+#### 1.3.1 安装软件包
+
+```css
+dpkg -i package.deb
+```
+
+#### 1.3.2 卸载软件包
+
+```ruby
+# 不建议、不自动卸载依赖它的包
+root@ubuntu-06:~# dpkg -r package.deb
+
+# 删除包（包括配置文件）
+root@ubuntu-06:~# dpkg -P package.deb
+```
+
+#### 1.3.3 使用dkpg查看软件包
+
+```ruby
+#列出当前已经按照的包，类似于rpm -qa
+root@ubuntu-06:~# dpkg -l
+```
+
+#### 1.3.4 列出该包所包含的文件
+
+```ruby
+#列出该包所包含的文件，类似于rpm -ql
+root@ubuntu-06:~# dpkg -L package
+```
+
+#### 1.3.5 查看文件所属的那个包
+
+```bash
+root@ubuntu-06:/etc# dpkg -S sshd
+openssh-server: /etc/pam.d/sshd
+vim-runtime: /usr/share/vim/vim80/syntax/sshdconfig.vim
+openssh-server: /usr/share/openssh/sshd_config.md5sum
+cloud-init: /etc/systemd/system/sshd-keygen@.service.d/disable-sshd-keygen-if-cloud-init-active.conf
+cloud-init: /etc/systemd/system/sshd-keygen@.service.d
+openssh-server: /usr/sbin/sshd
+openssh-server: /usr/share/man/man5/sshd_config.5.gz
+openssh-server: /usr/share/openssh/sshd_config
+openssh-server: /usr/share/man/man8/sshd.8.gz
+```
+
+#### 1.3.6 列出deb包中的所有文件
+
+```ruby
+root@ubuntu-06:/etc#  dpkg -c xxx.deb
+```
+
+# linux的其他知识（常识）
+快捷键的使用：ctrl + alt + t快速打开一个shell
+
+## 特殊符号使用
+
+- $
+  - $ 变量 # 表示取变量的值，常常与echo连着使用
+
+## linux进入root的方法
+
+首先打开终端（Ctrl+Alt+T）
+
+![img](https://img2018.cnblogs.com/blog/1809543/201911/1809543-20191104235720446-989958059.png)
+
+ 
+
+在这里解释一下bwj@ubuntu:~$这句话的含义：
+
+[![复制代码](https://assets.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+```
+bwj是用户名，也就是你自己起的名字。
+
+@是分割的符号
+
+ubuntu是主机名，也就是你所使用的机器的名称
+
+~是当前目录，"~"表示根目录
+
+$是提示符，当进入root时，会变成#
+```
+
+[![复制代码](https://assets.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+现在开始介绍**第一种方法：sudo（暂时的）**
+
+如果是使用root权限而不是直接进入，那么sudo + <指令> 即可。如：sudo chmod 777 /etc/sudoers。（这是最常用且推荐的方式）　　
+
+![img](https://img2018.cnblogs.com/blog/1809543/201911/1809543-20191105000658220-226586835.png)
+
+输入sudo后显示了可以输入的指令
+
+[![复制代码](https://assets.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+```
+sudo 
+-b：在后台执行指令
+-h：帮助
+-H：将HOME环境变量设为新身份的HOME环境变量
+-k：结束密码的有效期限，即下次再执行sudo时需要输入密码
+-l：列出目前用户可执行与无法执行的指令
+-p：改变询问密码的提示符号
+-s<shell>：执行指定的shell
+-u<用户>：以指定的用户作为新的身份
+-v：延长密码有效期限5分钟
+-V ：显示版本信息
+```
+
+[![复制代码](https://assets.cnblogs.com/images/copycode.gif)](javascript:void(0);)
+
+ 
+
+这里我们输入sudo -i，再输入你的用户密码，就会进入root模式了。
+
+但是这个方法持续的时间只有五分钟，想要延长时间可以用sudo -v再延长五分钟。
+
+**第二种方法：root（非暂时的）**
+直接sudo su切换到root用户
+
+输入sudo passwd root （注意passwd的拼写），再输入用户密码，接下来会让你设置root密码，并再次确认。          
+
+ ![img](https://img2018.cnblogs.com/blog/1809543/201911/1809543-20191105001914851-926516673.png)
+
+接下来输入su，再输入刚刚设置的root密码就可以进入root了。
+
+![img](https://img2018.cnblogs.com/blog/1809543/201911/1809543-20191105002201971-1560993902.png)
+
+ 
+
+ 之后想要退出输入exit即可。
+
+## dpkg和rpm常识
+
+dpkg和rpm是不同的系统包管理工具
+
+- dpkg：Debian、Ubuntu
+- rpm：Redhat、Centos、Fedora
+
+RPM与DPKG只能做到检查相依性，在安装或移除时告知相依性的不满足，皆下来就需要使用者自行去找出所需的套件来安装。 这样的确是有点不方便，因此产生了前端工具软体- APT及YUM。
+
+- apt：一般与dpkg联系，是在dpkg外套了壳子，真正的安装，修改，删除，其实都是dpkg完成的
+  - apt-get和apt不同，推荐一律使用apt命令
+  - apt update和apt upgrade的区别：
+    - apt update是更新包数据库（只包含包的最新版本、仓库、依赖等）
+    - apt upgrade是将目前系统使用的包版本更新为包数据库中最新的版本
+- yum：一般与rpm联系
+
+## gcc预处理、编译、汇编、链接
+
+注意：不像 Windows，[Linux](https://docs.oldtimes.me/c.biancheng.net/linux_tutorial/index.html) 不以文件后缀来区分可执行文件，Linux 下的可执行文件后缀理论上可以是任意的，这里的`.out`只是用来表明它是 GCC 的输出文件。不管源文件的名字是什么，GCC 生成的可执行文件的默认名字始终是`a.out`。 **Linux 下可执行文件的后缀仅仅是一种形式上的（表面上的），所以可执行文件也可以不带后缀**
+
+- 预处理（生成.i），编译（生成.s），汇编（生成.o），链接（将.o文件链接成一个可执行程序文件）
+- 注意：gcc 编译选项会区分大小写。因此`-o`选项和`-O`选项的效果是不一样的。前者表示源文件编译成为可执行文件，后者表示将源文件编译成为可执行文件并且进行一级优化。
+- `-E` ：仅执行预处理（不要编译、汇编或链接）。
+- `-S` ：只编译（不汇编或链接）。
+- `-c` ：编译和汇编，但不链接。
+- `-o <file>` ：指定输出文件，若不指定输出文件则只会将处理后的信息输出到shell上不会形成一个文件
+- `-L[dir]`：指定-l（小写-L）所使用到的库文件所在路径
+  - `-l[lib]`：（这里是小写的L，命令无中括号，下同）指定程序要链接的库，[lib]为库文件名称。如果gcc编译选项中加入了“-static”表示寻找静态库文件
+- `-g`：生成调试信息，方便gdb调试
+
+```
+基本语法：gcc [options] [infilenames] -o [outfilenames]
+1、生成可执行程序
+	gcc filename # 默认生成可执行文件名为a.out的文件
+	gcc infilename -o outfilename # 指定生成的可执行文件名位置和文件名
+	通过./filename执行可执行文件
+2、预处理 gcc -E main.c -o main.i
+3、编译 gcc -S main.i -o main.s
+4、汇编 gcc -c main.s -o main.o
+5、链接 gcc main.c -static -L. -lfunc -o main
+
+直接通过gcc main.c -o main得到对应的可执行文件
+```
+
+## linux下一些目录作用
+
+```
+1、/ 根目录 --------- 所有目录挂在其下
+
+2、/boot　--------- 存放Ubuntu内核和系统启动文件。系统启动时这些文件先被装载。
+
+3、/etc　--------- 系统的配置文件目录。密码文件、设置网卡信息、环境变量的设置等都在此目录中，许多网络配置文件也在其中。
+
+4、/lib   --------- 根文件系统目录下程序和核心模块的共享库。这个目录里存放着系统最基本的动态链接共享库，类似于Windows下的system32目录，几乎所有的应用程序都需要用到这些共享库。
+
+5、/media   --------- 主要用于挂载多媒体设备。ubuntu系统自动挂载的光驱、usb设备，存放临时读入的文件。
+
+6、/proc   --------- 这个目录是系统内存的映射，我们可以直接访问这个目录来获取系统信息。也就是说，这个目录的内容不在硬盘上而是在内存里。
+
+7、/sbin 　    --------- s就是Super User的意思，这里存放的是系统管理员使用的系统管理程序，如系统管理、目录查询等关键命令文件。
+
+8、/tmp         --------- 这个目录是用来存放一些临时文件的，所有用户对此目录都有读写权限。
+
+9、/home　   --------- 用户的主目录。下面是自己定义的用户名的文件夹。每个用户的设置文件，用户的桌面文件夹，还有用户的数据都放在这里。
+
+10、/mnt  　 --------- 此目录主要是作为挂载点使用。通常包括系统引导后被挂载的文件系统的挂载点。如挂载Windows下的某个分区。
+```
+
+## linux中文件后缀
+
+```
+1、.ko文件是kernel object文件（内核模块），该文件的意义就是把内核的一些功能移动到内核外边， 需要的时候插入内核，不需要时卸载。
+	装入内核模块：inmod modename
+	卸载内核模块: rmmod modename
+	查看已经装入的模块信息: lsmode
+```
+
+
+
+# 一些运维操作（git）
+![[Pasted image 20241204102953.png]]
+
+# 在linux中使用vim
+
+# makefile是什么
+
+# Linux中使用GDB调试程序
+
+常见命令：
+
+- list（l）：列出源代码，从上次的位置往下列10行
+  - list 行号、list 函数名、list -从上次调用list命令往前的10行程序代码
+- break（b） [行号|函数名]：
+  - info breakpoints # 查看当前设置了哪些断点，断点编号
+  - disable breakpoints [断点编号|没有该参数表示全部禁用] # 可用disable
+  - enable breakpoints [断点编号|没有该参数表示全部启用] # 可用enable
+  - delete breakpoints [断点编号|没有该参数表示全部删除] # 可用delete
+- run（r）：
+- 调试手段
+  - print（p）：打印表达式的值
+  - step（s）：下一步（有函数会进入函数）
+  - nest（n）：下一条语句（不会进入函数）
+  - continue（c）：执行到下一个断点
+
+
+
+
+
+# gcc版本控制
+
+```
+sudo apt install gcc-7 g++-7   #安装指定版本的gcc与g++，一般会出错，默认源一般不包含较老版本gcc，g++程序
+1、向源仓库中添加地址
+sudo add-apt-repository ppa:ubuntu-toolchain-r/test 
+add-apt-repository:表示向apt源仓库添加（/etc/apt/source.list.d文件）
+ppa:个人存档包（非官方的软件源）
+ubuntu-toolchain-r/test：维护ppa的团队名称，test是具体名称
+```
+
+# 前台与后台进程切换
+
+```
+通过jobs查看后台进程
+将前台进程切换后台
+	ctrl + z、&
+将后台进程切换前台
+	fg%number
+运行/停止后台进程
+	运行后台进程：bg%number、kill -18 pid/%number
+	暂停后台进程：kill -19 pid/%number
+	
+```
+
+# tftp服务器
+
+```
+1、安装包
+	sudo apt install tftp-hpa # 客户端包
+	sudo apt install tftpd-hpa # 服务端包（d--daemon）
+2、创建tftp目录
+	sudo mkdir ~/tftp-server
+	sudo chmode 777 tftp-server -R
+3、修改配置文件
+	sudo nano /etc/default/tftpd-hpa
+	修改以下参数：
+		tftp_directory="~/tftp-server"
+		tftp_options="-l -c -s"
+			-l log启动日志
+			-c create运行客户端创建不存在的文件
+			-s secure指定tftp_directory为根目录，保证了安全性
+4、sudo service tftpd-hpa restart
+5、客户端使用tftp
+	tftp <server_ip>
+	get、put
+```
+
