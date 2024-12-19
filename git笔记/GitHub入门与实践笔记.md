@@ -9,6 +9,9 @@
 		[user]
             name = lqh
             email = 2931451523@qq.com
+    3)查看配置
+    	git config --global --list/-l
+    	git config --list/-l
 2、设置github的ssh key
 	将本地git用户关联到github上用户
 	1)生成ssh key的公钥和密钥
@@ -30,7 +33,7 @@
 	查看什么时候git clone\什么时候git commit
 	-p:会显示差异: 是每次commit提交的文件，与上一次的差异
 	filename:查看指定文件的log
-	只会看当前分支或已经被合并分支的信息
+	只会看当前分支或已经被合并分支的信息,如果想看全部的提交历史通过命令git reflog实现
 	一般用git log查看分支在哪个提交上，指针在哪个提交或者分支上
 # git push [-u/--set-upstream][remote] [branch]
 	-u:在推送的同时，将远程仓库origin设置为本地仓库的上游
@@ -38,8 +41,8 @@
 	默认remote为origin，branch为当前分支
 -------------------------------------------------------------------
 # git diff的使用
-1、git diff [HEAD]
-	HEAD:查看工作树与本地仓库的差异，若为空表示工作树与暂存区的差异
+1、git diff [HEAD/分支名]
+	HEAD/分支名:查看工作树与本地仓库的差异，若为空表示工作树与暂存区的差异
 -------------------------------------------------------------------
 # 分支操作
 # git checkout [-b] <分支/commit_hash/HEAD^> <origin/feature-D>
@@ -76,6 +79,7 @@
 		git commit --amend
 			会修改当前HEAD指向的提交信息
 			会导致远程仓库和本地仓库不一致，需要强制推送
+			相当于撤销当前指针指向的提交，并重新提交
 3、rebase的使用将最新提交说明压缩到历史记录说明中
 	1)回到最新节点，新建分支feature-C，修改README.md提交
 		略
@@ -101,9 +105,7 @@
 	更新本地分支branch_name，远程仓库的信息会直接覆盖当前分支上的信息
 ```
 
-
-
-
+![image-20241220005109010](./../imgs/image-20241220005109010.png)
 
 # 1.git checkout 与git reset的区别
 
@@ -117,7 +119,7 @@
 	将HEAD和分支移动到某一提交，原分支的代码会被清除，替换为移动位置的分支代码，相当于为移动位置分支又起了个别名，由于原分支会被清除，所以该操作一般会在分支内操作，如果需要回到最新分支，使用git reflog查看最新分支的hash值，通过git reset --hard <hash>回到最新分支
 ```
 
-![9aafe0c178d626ccd467b9524540ca98](C:\Users\13665\Desktop\黄金屋和颜如玉\imgs\9aafe0c178d626ccd467b9524540ca98.png)
+![9aafe0c178d626ccd467b9524540ca98](./../imgs/9aafe0c178d626ccd467b9524540ca98.png)
 
 ```
 3、git reset的用途
@@ -127,11 +129,160 @@
 		git reset --hard origin/master
 ```
 
-![e743ae67c4e1a2f54c62ad6f4bb50aec](C:\Users\13665\Desktop\黄金屋和颜如玉\imgs\e743ae67c4e1a2f54c62ad6f4bb50aec.png)
+![e743ae67c4e1a2f54c62ad6f4bb50aec](./../imgs/e743ae67c4e1a2f54c62ad6f4bb50aec.png)
 
-![44848c87f415cf47e274bfa7dd9b4342](C:\Users\13665\Desktop\黄金屋和颜如玉\imgs\44848c87f415cf47e274bfa7dd9b4342.png)
-
-
+![44848c87f415cf47e274bfa7dd9b4342](./../imgs/44848c87f415cf47e274bfa7dd9b4342.png)
 
 
 
+
+
+
+
+# 2、使用difftool和mergetool打开vscode比较差异
+
+##### 文章时效性提示
+
+这是一篇发布于 1069 天前的文章，部分信息可能已发生改变，请注意甄别。
+
+`Git` 是我们软件开发中经常使用的工具，为了解决日常遇到的各种问题，我们需要使用 `Git` 提供的各种各样的内置工具，但很多都是在命令行下使用的，对于新手来说并不方便。
+
+本篇介绍一种新的方式，将 `Git` 的内置工具修改为 `VSCode` ，方便我们的使用。
+
+
+
+## 前言
+
+多人协作多分支开发往往会遇到分支合并的问题，一般，我们遇到多个分支的合并，大致是以下流程：
+
+```
+diff  => merge => add & commit
+```
+
+其中，`git diff` 命令可以查看分支间的差异，清楚知道各个文件的差异，以便我们知道哪些问题有更改。为了可视化显示，我们会使用 `git difftool` 。
+
+其次，`git merge` 命令用于合并分支，如果遇到冲突，则会自动停止，为了可视化解决冲突，我们一般使用 `git mergetool` 来合并文件。
+
+默认情况下，`git difftool` 和 `git mergetool` 会调用类似 `vim` 的命令行工具来实现文件查看和编辑，`vim` 的确很强大，但是得熟悉快捷键，上手有难度。
+
+使用过 `VSCode` 的读者应该都了解，`VSCode` 的编辑器就自带 `diff` 工具，那我们是否可以使用 `VSCode` 来实现 `diff` 和 `merge` 的功能呢？
+
+答案是可以的！下面我们就开始配置。
+
+## 准备工作
+
+> 由于篇幅有限，如何安装 `VSCode` 的步骤我就不赘述了，没有安装的搜索引擎寻找教程即可。
+
+为了确保配置能够成功，我们需要确定可以在命令行唤起 `VSCode` 的窗口。
+
+在任意位置打开 `Git Bash` 的命令行窗口，输入 `code` ，如果能够唤起 `VSCode` 的窗口，则直接跳到 [下一节](#配置命令).
+能够唤起的情况下应该是这样子的：
+
+[![code-awake](https://fastly.jsdelivr.net/gh/qianfanguojin/ImageHosting_1/hexo/202201152018906.gif)](https://fastly.jsdelivr.net/gh/qianfanguojin/ImageHosting_1/hexo/202201152018906.gif)
+
+如果不能唤起，那大概率是没有配置环境变量，在 `Windows` 下，打开 高级系统设置 => 高级 => 环境变量，找到 `PATH`，在最后加上一条，内容为你的 `VSCode` 的安装路径，如 ：
+
+```
+C:\Program Files (x86)\Development\Microsoft\Microsoft VS Code
+```
+
+具体的路径根据你的安装位置决定，**注意：配置好一定要重启电脑，使环境变量生效**。启动后按照上述方式测试是否能够唤起，确定能够唤起，进入下一步。
+
+## 配置命令
+
+`git difftool` 以及 `git mergetool` 提供了运行时指定特定工具的参数 `-t --tool`，不过这个工具必须在 `git` 的配置中定义好。
+
+1. 添加 `VSCode` 为 `git difftool` 可使用的工具
+
+   ```
+   git config --global difftool.code.cmd "code --wait --diff $LOCAL $REMOTE"
+   ```
+
+2. 添加 `VSCode` 为 `git mergetool` 可使用的工具
+
+   ```
+   git config --global mergetool.code.cmd "code --wait $MERGED"
+   ```
+
+最后，查看配置列表，检查是否配置成功：
+
+```
+git config --global -l
+```
+
+## 使用示例
+
+为了使用更加优雅，请先打开 `VSCode` 的窗口。否则每个文件可能都要重新打开一次 `VSCode` 的窗口。
+
+### Diff
+
+假设当前为 `main` 分支，我想查看 `dev` 分支和当前分支的不同，使用默认方式为：
+
+```
+git difftool dev
+```
+
+调用 `VSCode`的命令为：
+
+```
+git difftool -t code dev
+```
+
+### Merge
+
+假设当前为 `main` 分支，我想合并 `dev` 分支到当前分支，使用默认方式为：
+
+```
+git merge dev
+#如果出现冲突
+git mergetool
+```
+
+调用 `VSCode`的命令为：
+
+```
+git merge dev
+#如果出现冲突
+git mergetool -t code dev
+```
+
+
+
+# 3.使用.gitignore忽略不需要git管理的文件
+
+### 忽略某些文件
+
+一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等。我们可以创建一个名为 `.gitignore` 的文件，列出要忽略的文件模式。来看一个实际的例子：
+
+```
+$ cat .gitignore
+    *.[oa]
+    *~
+```
+
+第一行告诉 Git 忽略所有以 `.o` 或 `.a` 结尾的文件。一般这类对象文件和存档文件都是编译过程中出现的，我们用不着跟踪它们的版本。第二行告诉 Git 忽略所有以波浪符（`~`）结尾的文件，许多文本编辑软件（比如 Emacs）都用这样的文件名保存副本。此外，你可能还需要忽略 `log`，`tmp` 或者 `pid` 目录，以及自动生成的文档等等。要养成一开始就设置好 `.gitignore` 文件的习惯，以免将来误提交这类无用的文件。
+
+文件 `.gitignore` 的格式规范如下：
+
+- 所有空行或者以注释符号 `＃` 开头的行都会被 Git 忽略。
+- 可以使用标准的 glob 模式匹配。
+- 匹配模式最后跟反斜杠（`/`）说明要忽略的是目录。
+- 要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（`!`）取反。
+
+所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。星号（`*`）匹配零个或多个任意字符；`[abc]` 匹配任何一个列在方括号中的字符（这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）；问号（`?`）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如 `[0-9]` 表示匹配所有 0 到 9 的数字）。
+
+我们再看一个 `.gitignore` 文件的例子：
+
+```
+# 此为注释 – 将被 Git 忽略
+    # 忽略所有 .a 结尾的文件
+    *.a
+    # 但 lib.a 除外
+    !lib.a
+    # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
+    /TODO
+    # 忽略 build/ 目录下的所有文件
+    build/
+    # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+    doc/*.txt
+```
