@@ -347,7 +347,7 @@ status=progress&&sync
 
 区别一如图，只会覆盖指定大小的空间，区别二则是dd是对块操作，而cp是对文件操作
 
-![image-20241104110516958](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20241104110516958.png)
+![image-20241104110516958](../imgs/image-20241104110516958.png)
 
 ## mount\unmount命令
 
@@ -894,5 +894,13 @@ ubuntu-toolchain-r/test：维护ppa的团队名称，test是具体名称
 5、客户端使用tftp
 	tftp <server_ip>
 	get、put
+```
+
+# ssh服务器
+
+```
+1、scp用于传输文件
+	scp <文件名> username@ipaddr:save_file_to_path
+2、ssh连接
 ```
 
