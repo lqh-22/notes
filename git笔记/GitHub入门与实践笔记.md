@@ -29,12 +29,13 @@
 	无说明打开默认编辑器
 # git status 
 	查看哪些没有加入暂存区，那些没有commit
-# git log [-p] [filename] [--graphy/--oneline]
+# git log [-p] [filename] [--graphy/--oneline] [origin/main..HEAD]
 	查看什么时候git clone\什么时候git commit
 	-p:会显示差异: 是每次commit提交的文件，与上一次的差异
 	filename:查看指定文件的log
 	只会看当前分支或已经被合并分支的信息,如果想看全部的提交历史通过命令git reflog实现
 	一般用git log查看分支在哪个提交上，指针在哪个提交或者分支上
+	origin/main..HEAD:会查看远程分支的提交和本地仓库的提交的差别
 # git push [-u/--set-upstream][remote] [branch]
 	-u:在推送的同时，将远程仓库origin设置为本地仓库的上游
 		--set-upstream效果类似
