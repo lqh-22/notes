@@ -106,7 +106,7 @@
 	更新本地分支branch_name，远程仓库的信息会直接覆盖当前分支上的信息
 ```
 
-# 1.git checkout 与git reset的区别
+# 1、git checkout 与git reset的区别
 
 ```
 # HEAD和分支的区别
@@ -237,7 +237,7 @@ git mergetool -t code dev
 
 
 
-# 3.使用.gitignore忽略不需要git管理的文件
+# 3、使用.gitignore忽略不需要git管理的文件
 
 ### 忽略某些文件
 
@@ -275,3 +275,8 @@ $ cat .gitignore
     # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
     doc/*.txt
 ```
+
+
+
+# 4、git内部原理
+
