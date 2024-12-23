@@ -275,8 +275,3 @@ $ cat .gitignore
     # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
     doc/*.txt
 ```
-
-
-
-# 4、git内部原理
-
