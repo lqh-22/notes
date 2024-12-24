@@ -29,12 +29,13 @@
 	无说明打开默认编辑器
 # git status 
 	查看哪些没有加入暂存区，那些没有commit
-# git log [-p] [filename] [--graphy/--oneline]
+# git log [-p] [filename] [--graphy/--oneline] [origin/main..HEAD]
 	查看什么时候git clone\什么时候git commit
 	-p:会显示差异: 是每次commit提交的文件，与上一次的差异
 	filename:查看指定文件的log
 	只会看当前分支或已经被合并分支的信息,如果想看全部的提交历史通过命令git reflog实现
 	一般用git log查看分支在哪个提交上，指针在哪个提交或者分支上
+	origin/main..HEAD:会查看远程分支的提交和本地仓库的提交的差别
 # git push [-u/--set-upstream][remote] [branch]
 	-u:在推送的同时，将远程仓库origin设置为本地仓库的上游
 		--set-upstream效果类似
@@ -105,9 +106,7 @@
 	更新本地分支branch_name，远程仓库的信息会直接覆盖当前分支上的信息
 ```
 
-![image-20241220005109010](./../imgs/image-20241220005109010.png)
-
-# 1.git checkout 与git reset的区别
+# 1、git checkout 与git reset的区别
 
 ```
 # HEAD和分支的区别
@@ -140,16 +139,6 @@
 
 
 # 2、使用difftool和mergetool打开vscode比较差异
-
-##### 文章时效性提示
-
-这是一篇发布于 1069 天前的文章，部分信息可能已发生改变，请注意甄别。
-
-`Git` 是我们软件开发中经常使用的工具，为了解决日常遇到的各种问题，我们需要使用 `Git` 提供的各种各样的内置工具，但很多都是在命令行下使用的，对于新手来说并不方便。
-
-本篇介绍一种新的方式，将 `Git` 的内置工具修改为 `VSCode` ，方便我们的使用。
-
-
 
 ## 前言
 
@@ -248,7 +237,7 @@ git mergetool -t code dev
 
 
 
-# 3.使用.gitignore忽略不需要git管理的文件
+# 3、使用.gitignore忽略不需要git管理的文件
 
 ### 忽略某些文件
 
