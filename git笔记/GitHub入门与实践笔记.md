@@ -102,7 +102,7 @@
 	-v:查看当前绑定的远程仓库
 2、git checkout [-b] [branch_name] [origin/branchh_name]
 	从远程仓库获得分支
-3、git pull origin branch_name
+3、git pull <远程仓库名> [远程分支名]:<本地分支名>
 	更新本地分支branch_name，远程仓库的信息会直接覆盖当前分支上的信息
 ```
 
@@ -239,8 +239,6 @@ git mergetool -t code dev
 
 # 3、使用.gitignore忽略不需要git管理的文件
 
-### 忽略某些文件
-
 一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等。我们可以创建一个名为 `.gitignore` 的文件，列出要忽略的文件模式。来看一个实际的例子：
 
 ```
@@ -275,3 +273,22 @@ $ cat .gitignore
     # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
     doc/*.txt
 ```
+
+
+
+# 4、抓取、处理冲突、合并过程
+
+```
+# 方法一
+	git fetch origin main  // 抓取远程main分支到本地仓库的origin/main分支，会新建一个分支默认名为origin/main
+	git log -p main..origin/main  // 查看本地分支与origin/main分支差异
+	git merge origin/main  // 合并
+# 方法二
+	git fetch origin main[:temp]  // 抓取远程main分支到本地origin/main分支或者temp分支
+	git difftool origin/main或者temp  // 比较不同
+	git merge origin/main或者temp  // 合并
+	git branch -d temp  // 删除多余的temp分支
+```
+
+
+
