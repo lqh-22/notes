@@ -101,7 +101,7 @@
 	-v:查看当前绑定的远程仓库
 2、git checkout [-b] [branch_name] [origin/branchh_name]
 	从远程仓库获得分支
-3、git pull origin branch_name
+3、git pull <远程仓库名> [远程分支名]:<本地分支名>
 	更新本地分支branch_name，远程仓库的信息会直接覆盖当前分支上的信息
 ```
 
