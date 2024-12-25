@@ -204,3 +204,6 @@ CAN FD节点可以发送CAN FD报文与传统CAN报文，CAN FD节点可以接�
 6. MATLAB/Simulink 2019a及以上版本提供了完整的CAN FD功能支持，Simulink提供的CAN FD相关模块既可以仿真，也可以生成C代码。
 
 综上，CAN FD应用前景广阔，是传统CAN总线升级换代的理想选择。
+
+
+
