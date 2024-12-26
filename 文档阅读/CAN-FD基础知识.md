@@ -1,3 +1,16 @@
+# 问题
+
+```
+1、CAN发送时广播的，不同ECU之间如何确定消息报文是发送给自己的
+	根据CAN ID选择性丢弃，注意优先级也是看ID字段
+```
+
+# CAN基础知识
+
+https://blog.csdn.net/is_yaoyao/article/details/130286527#11_193
+
+
+
 # CAN FD基础知识
 
 随着车辆ECU的数量不断增多，总线上传输的报文数量也越来越多，而在传统CAN网络中，每帧报文只能携带8个字节的数据，CAN总线最大只能支持1Mb/s的传输速率，为了增加CAN总线的利用率，在CAN的基础上推出了CAN FD（Flexible Data-rate）标准。
