@@ -246,6 +246,7 @@ git mergetool -t code dev
 
 ```
 $ cat .gitignore
+# .gitignore默认.git目录为根目录，不需要在文件前面加/
     *.[oa]
     *~
 ```
