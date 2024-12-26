@@ -19,6 +19,9 @@
 	2)将公钥放入github账户上，进行绑定
 	3)验证是否绑定成功
 		ssh -T git@github.com
+3、设置git默认编辑器为vscode
+	git config --global core.editor "code --wait"
+		--wait:会等待编辑器关闭再继续后续操作
 ------------------------------------------------------------------
 # github上创建仓库,默认仓库地址：https://github.com/用户名/仓库名
 # git clone [-b/--branch] [branch_name] git@github.com:用户名/该用户下的仓库名.git
