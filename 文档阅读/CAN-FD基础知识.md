@@ -1,3 +1,14 @@
+<<<<<<< HEAD
+
+
+
+
+# CAN基础知识
+
+
+
+CAN FD基础知识
+=======
 # 问题
 
 ```
@@ -12,6 +23,7 @@ https://blog.csdn.net/is_yaoyao/article/details/130286527#11_193
 
 
 # CAN FD基础知识
+>>>>>>> origin/main
 
 随着车辆ECU的数量不断增多，总线上传输的报文数量也越来越多，而在传统CAN网络中，每帧报文只能携带8个字节的数据，CAN总线最大只能支持1Mb/s的传输速率，为了增加CAN总线的利用率，在CAN的基础上推出了CAN FD（Flexible Data-rate）标准。
 
