@@ -26,6 +26,7 @@
 	1)git lfs install
 	2)git lfs track "*.pdf"
 	3)git add .gitattributes
+	注意：若已经Push报错，需要reset撤销当前的commit，重新上一步，再commit、push即可
 ------------------------------------------------------------------
 # github上创建仓库,默认仓库地址：https://github.com/用户名/仓库名
 # git clone [-b/--branch] [branch_name] git@github.com:用户名/该用户下的仓库名.git
