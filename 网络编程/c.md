@@ -267,3 +267,8 @@ Learn more:
 2. [strcat ()-并置字符串](https://www.ibm.com/docs/zh/i/7.5?topic=functions-strcat-concatenate-strings)
 3. [c语言如何使用strcat函数 | PingCode智库](https://docs.pingcode.com/baike/1531715)
 
+
+
+
+
+1. 字符串库函数注意是否会自动末尾添加“\0”

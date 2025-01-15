@@ -433,3 +433,106 @@ make: Leaving directory `/home/ccinn/gnu/make'
 
 
 # GDB调试
+
+## 命令行调试
+
+在学习之前通过make编译得到可执行文件后，使用gdb调式可执行文件
+
+```
+1、使用格式
+	gdb [选项] [可执行程序]
+	常用选项（不重要）：
+		-c\-h\-n\-q\-s
+2、进入gdb后命令
+	l	list	列出调试源码
+	b	break	打断点，b 19表示在第19行打断点
+	r	run		运行
+	n	next	下一过程，不进入函数
+	s	step	下一步，进入函数
+	p	print	显示变量值，p 变量名
+	info break	显示断点信息
+	info local	显示全部的局部变量
+	q	quit	退出
+```
+
+## VSCODE调试
+
+使用命令行gdb调试麻烦，通过vscode调试方便
+
+在 Linux 中使用 Visual Studio Code (VSCode) 调试可执行文件的步骤如下：
+
+### 1. 编译可执行文件
+确保你的可执行文件包含调试信息。使用 `gcc` 编译时，添加 `-g` 选项。例如：
+```bash
+gcc -g -o my_program my_program.c
+```
+这将生成一个名为 `my_program` 的可执行文件，并包含调试信息。
+
+### 2. 安装 C/C++ 扩展
+在 VSCode 中，确保安装了 C/C++ 扩展。可以通过以下步骤进行安装：
+- 打开 VSCode。
+- 按下 `Ctrl + Shift + X` 打开扩展视图。
+- 搜索 "C/C++" 并安装由 Microsoft 提供的扩展。
+
+### 3. 创建调试配置
+- 打开你的项目文件夹。
+- 按下 `Ctrl + Shift + D` 打开运行和调试视图。
+- 点击 "create a launch.json file"。
+- 选择 "C++ (GDB/LLDB)" 作为环境。
+
+### 4. 配置 `launch.json`
+在自动生成的 `launch.json` 文件中，找到 `program` 字段并设置为你的可执行文件路径。例如：
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/my_program",
+            "args": [], // 参数传递用
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
+```
+确保 `program` 字段指向你的可执行文件。
+
+### 5. 开始调试
+- 在调试视图中，选择刚刚创建的配置（如 "(gdb) Launch"）。
+- 点击绿色的开始按钮，VSCode 将启动调试会话。
+
+### 6. 设置断点
+在代码中点击行号可以设置断点，调试时程序会在这些断点处暂停，方便你检查变量和程序状态。
+
+### 7. 清理和运行
+使用 `clean` 目标清理生成的文件，确保在每次调试前都使用最新的可执行文件。
+
+通过以上步骤，你可以在 Linux 中使用 VSCode 调试可执行文件，享受图形化调试的便利，而不必依赖命令行工具如 GDB。
+
+---
+Learn more:
+1. [在linux 下通过vscode调试elf可执行文件 - Jay's some notes](https://notes.leconiot.com/debug_elf_with_vscode.html)
+2. [\[Linux\]用VScode 调试Linux命令行带参数可执行程序\_vscode命令行调试-CSDN博客](https://blog.csdn.net/wangyijieonline/article/details/84943093)
+3. [vscode调试cmake生成的可执行文件\_vscode运行可执行文件-CSDN博客](https://blog.csdn.net/ergevv/article/details/139751251)
+
+## .vscode中的文件说明
+
+- launch.json
+  - 调试用
+- c_cpp_properties.json
+  - 头文件用
+- settings.json
+  - 键值对存储形式，用来存数据库信息等，可用被解析
