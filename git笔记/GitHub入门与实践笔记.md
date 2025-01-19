@@ -22,6 +22,11 @@
 3、设置git默认编辑器为vscode
 	git config --global core.editor "code --wait"
 		--wait:会等待编辑器关闭再继续后续操作
+4、github对于大于100M的文件有限制，需要使用git LFS对文件跟踪才能Push
+	1)git lfs install
+	2)git lfs track "*.pdf"
+	3)git add .gitattributes
+	注意：若已经Push报错，需要reset撤销当前的commit，重新上一步，再commit、push即可
 ------------------------------------------------------------------
 # github上创建仓库,默认仓库地址：https://github.com/用户名/仓库名
 # git clone [-b/--branch] [branch_name] git@github.com:用户名/该用户下的仓库名.git
@@ -143,7 +148,7 @@
 
 # 2、使用difftool和mergetool打开vscode比较差异
 
-## 前言
+1. 前言
 
 多人协作多分支开发往往会遇到分支合并的问题，一般，我们遇到多个分支的合并，大致是以下流程：
 
@@ -161,7 +166,7 @@ diff  => merge => add & commit
 
 答案是可以的！下面我们就开始配置。
 
-## 准备工作
+2. 准备工作
 
 > 由于篇幅有限，如何安装 `VSCode` 的步骤我就不赘述了，没有安装的搜索引擎寻找教程即可。
 
@@ -180,7 +185,7 @@ C:\Program Files (x86)\Development\Microsoft\Microsoft VS Code
 
 具体的路径根据你的安装位置决定，**注意：配置好一定要重启电脑，使环境变量生效**。启动后按照上述方式测试是否能够唤起，确定能够唤起，进入下一步。
 
-## 配置命令
+3. 配置命令
 
 `git difftool` 以及 `git mergetool` 提供了运行时指定特定工具的参数 `-t --tool`，不过这个工具必须在 `git` 的配置中定义好。
 
@@ -202,11 +207,11 @@ C:\Program Files (x86)\Development\Microsoft\Microsoft VS Code
 git config --global -l
 ```
 
-## 使用示例
+4. 使用示例
 
 为了使用更加优雅，请先打开 `VSCode` 的窗口。否则每个文件可能都要重新打开一次 `VSCode` 的窗口。
 
-### Diff
+Diff
 
 假设当前为 `main` 分支，我想查看 `dev` 分支和当前分支的不同，使用默认方式为：
 
@@ -220,7 +225,7 @@ git difftool dev
 git difftool -t code dev
 ```
 
-### Merge
+Merge
 
 假设当前为 `main` 分支，我想合并 `dev` 分支到当前分支，使用默认方式为：
 
@@ -296,3 +301,4 @@ $ cat .gitignore
 
 
 
+# https://ww-rm.github.io/posts/2024/01/17/githubssh-timeout/
