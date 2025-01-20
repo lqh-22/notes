@@ -258,13 +258,13 @@ Learn more:
 - **示例**：
   ```makefile
   MY_VAR = 
-
+  
   ifdef MY_VAR
       MESSAGE = "MY_VAR is defined"
   else
       MESSAGE = "MY_VAR is not defined"
   endif
-
+  
   all:
       @echo $(MESSAGE)
   ```
@@ -285,13 +285,13 @@ Learn more:
 - **示例**：
   ```makefile
   MY_VAR = 
-
+  
   ifndef MY_VAR
       MESSAGE = "MY_VAR is not defined"
   else
       MESSAGE = "MY_VAR is defined"
   endif
-
+  
   all:
       @echo $(MESSAGE)
   ```
@@ -531,7 +531,7 @@ Learn more:
 ## .vscode中的文件说明
 
 - launch.json
-  - 调试用
+  - 调试运行用
 - c_cpp_properties.json
   - 头文件用
 - settings.json
