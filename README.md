@@ -15,7 +15,7 @@
   - [x] tsn套接字发包
   - [x] 使用ip，进行socket通信（UDP）
   - [ ] 使用mac，进行socket通信
-  - [ ] cursor的使用push
+  - [x] cursor的使用push
 - [ ] OTA
 
   - [ ] 断点续传
