@@ -23,7 +23,7 @@
 - [ ] rust
 - [ ] go
 - [ ] 应用迁移
-- [ ] deepseek
+- [x] deepseek
 - [ ] vscod在win上定义linux下的头文件/win下vscod使用
 - [x] gcc -o得到可执行文件，./运行该可执行文件，如何调试
 - [x] makefile
