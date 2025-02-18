@@ -27,6 +27,7 @@
 	2)git lfs track "*.pdf"
 	3)git add .gitattributes
 	注意：若已经Push报错，需要reset撤销当前的commit，重新上一步，再commit、push即可
+	
 ------------------------------------------------------------------
 # github上创建仓库,默认仓库地址：https://github.com/用户名/仓库名
 # git clone [-b/--branch] [branch_name] git@github.com:用户名/该用户下的仓库名.git
@@ -48,10 +49,16 @@
 	-u:在推送的同时，将远程仓库origin设置为本地仓库的上游
 		--set-upstream效果类似
 	默认remote为origin，branch为当前分支
+# git pull <repository> <branch>
+	<repository>：指定远程仓库的名称。通常是 origin，但可以是任何已定义的远程仓库。
+	<branch>：指定要拉取的远程分支名称，这将会与你当前的本地分支合并。
+	若远程仓库和本地仓库没有共同的历史分支，添加参数--allow-unrelated-histories：允许合并没有共同历史的分支。
+	
 -------------------------------------------------------------------
 # git diff的使用
 1、git diff [HEAD/分支名]
 	HEAD/分支名:查看工作树与本地仓库的差异，若为空表示工作树与暂存区的差异
+	
 -------------------------------------------------------------------
 # 分支操作
 # git checkout [-b] <分支/commit_hash/HEAD^> <origin/feature-D>
@@ -98,6 +105,7 @@
 		git rebase -i HEAD~2
 			-i:默认打开编辑器操作
 	4)合并main分支
+	
 -------------------------------------------------------------------
 # 多人协同远程仓库基础
 # 新建目录1将本地仓库推送到新的远程仓库
