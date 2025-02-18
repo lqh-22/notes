@@ -667,7 +667,64 @@ openssh-server: /usr/share/man/man8/sshd.8.gz
 root@ubuntu-06:/etc#  dpkg -c xxx.deb
 ```
 
+
+
+## gcc命令
+
+### 1.1 gcc下默认文件扩展名
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # linux的其他知识（常识）
+
 快捷键的使用：ctrl + alt + t快速打开一个shell
 
 ## 特殊符号使用
