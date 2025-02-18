@@ -673,51 +673,172 @@ root@ubuntu-06:/etc#  dpkg -c xxx.deb
 
 ### 1.1 gcc下默认文件扩展名
 
+![image-20250218193543793](./../imgs/image-20250218193543793.png)
+
+1. 预处理
+
+   ```bash
+   gcc -E string.c
+   获得string.c预处理之后的文件string.i
+   ```
+
+   
+
+2. 汇编语言
+
+   ```bash
+   gcc -S string.c
+   #获得string.c汇编之后的文件string.s
+   ```
+
+   
 
 
 
+### 1.2 gcc编译下默认头文件，库文件路径
+
+![image-20250218193626605](./../imgs/image-20250218193626605.png)
+
+![image-20250218193639306](./../imgs/image-20250218193639306.png)
+
+### 1.3 静态链接库
+
+```bash
+1、生成静态链接库
+	ar -rcs libstr.a string.o
+	# 注意：ar命令只适用与目标文件，且库文件名称前缀为lib
+2、使用静态链接库
+	gcc -o test main.c libstr.a
+	gcc -o test main.c -lstr
+	gcc -o test main.c -L./ -lstr
+```
 
 
 
+### 1.4 动态链接库
+
+```bash
+1、生成动态链接库
+	gcc -shared -fPIC -Wl, -soname, libstr.so, -o #libstr.so.1 string.c
+2、使用动态链接库
+	1、复制到系统的库目录中如/usr/lib或/usr/local/lib
+		sudo cp libmylib.so /usr/lib/
+		sudo ldconfig # 运行ldconfig命令,更新动态链接库的缓存，使系统能找到新的库文件
+	2、ldconfig ~/lib # 暂时使得系统共享~/lib/下的库文件，若重新运行sudo ldconfig命令，则失效
+3、动态链接库管理命令ldconfig
+	1、自定义系统共享库
+		1）/etc/ld.so.conf 文件中列出的目录下搜索可共享的动态链接库
+		2）修改/etc/ld.so.conf文件指定库的路径
+		3)修改后运行ldconfig目录更新库缓存
+	
+```
 
 
 
+### 1.5 动态加载库（模块、插件核心）⭐⭐⭐
+
+在 Linux 中，动态加载库（Dynamic Loading Libraries）是一种在程序运行时加载共享库的机制。这种方式与静态链接不同，静态链接是在编译时将库的代码直接嵌入到可执行文件中。动态加载库的主要优点是可以在运行时根据需要加载和卸载库，从而节省内存和提高灵活性。
+
+#### 动态加载库的基本概念
+
+1. **动态加载**: 动态加载允许程序在运行时加载共享库，而不是在启动时加载所有库。这使得程序可以根据需要加载特定功能的库。
+2. **API 函数**: 在 C 语言中，动态加载库通常使用以下几个函数：
+   - `dlopen()`: 打开一个动态库并返回一个句柄。
+   - `dlsym()`: 根据符号名称查找库中的函数或变量。
+   - `dlerror()`: 返回描述最后一个错误的字符串。
+   - `dlclose()`: 关闭一个动态库。
+
+#### 使用示例
+
+以下是一个简单的示例，展示如何在 C 程序中动态加载库：
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <dlfcn.h>
+
+int main() {
+    // 打开动态库
+    void *handle = dlopen("libmylib.so", RTLD_LAZY);
+    if (!handle) {
+        fprintf(stderr, "%s\n", dlerror());
+        exit(1);
+    }
+
+    // 清除之前的错误
+    dlerror();
+
+    // 查找符号
+    void (*hello)() = dlsym(handle, "hello");
+    const char *dlsym_error = dlerror();
+    if (dlsym_error) {
+        fprintf(stderr, "%s\n", dlsym_error);
+        dlclose(handle);
+        exit(1);
+    }
+
+    // 调用函数
+    hello();
+
+    // 关闭动态库
+    dlclose(handle);
+    return 0;
+}
+```
+
+在这个示例中，程序首先使用 `dlopen()` 打开名为 `libmylib.so` 的动态库，然后使用 `dlsym()` 查找名为 `hello` 的函数，并最终调用该函数。
+
+#### 动态加载库的优点
+
+- **内存效率**: 只有在需要时才加载库，减少了内存占用。
+- **灵活性**: 可以在运行时决定加载哪个库，支持插件架构。
+- **版本管理**: 可以轻松替换库的实现而无需重新编译依赖于该库的程序。
+
+动态加载库在许多应用程序中都非常有用，尤其是在需要插件或模块化设计的情况下。
+
+------
+
+Learn more:
+
+1. [Linux C 动态库（.so）的生成和加载_c代码编译so库,显示没有头文件-CSDN博客](https://blog.csdn.net/wangqingchuan92/article/details/104478084)
+2. [一文读懂Linux下动态链接库版本管理及查找加载方式 | IdeaWand](http://blog.ideawand.com/2020/02/15/how-does-linux-shared-library-versioning-works/)
+3. [深入理解Linux动态库加载：路径、问题与解决方案-阿里云开发者社区](https://developer.aliyun.com/article/1466188)
 
 
 
+### 1.6 GCC常用选项
 
+在使用 `gcc` 编译器时，有一些重要的选项可以帮助您生成和使用动态加载库。以下是与动态库相关的常用 `gcc` 选项：
 
+1. **-shared**: 该选项用于生成动态链接库（共享库）。使用此选项时，编译器会创建一个 `.so` 文件，而不是默认的可执行文件。例如：
 
+   ```bash
+   gcc -shared -fPIC -o libmylib.so mylib.c
+   ```
 
+2. **-fPIC**: 该选项用于生成位置无关代码（Position Independent Code），这是创建动态库所必需的。它确保生成的代码可以在内存中的任何位置运行。
 
+3. **-L**: 该选项用于指定动态库的搜索路径。在链接时，编译器会在指定的目录中查找库文件。例如：
 
+   ```bash
+   gcc -o main main.c -L/usr/local/lib -lmylib
+   ```
 
+4. **-l**: 该选项用于链接库文件。您需要去掉库文件名前的 `lib` 和后缀 `.so`。例如，如果库文件名为 `libmylib.so`，则使用 `-lmylib`。
 
+5. **-o** : 该选项用于指定输出文件的名称。默认情况下，`gcc` 会生成名为 `a.out` 的可执行文件。
 
+6. **-Wl,-rpath,**: 该选项用于设置运行时库搜索路径，确保在运行时能够找到动态库。
 
+通过合理使用这些选项，您可以轻松地创建和管理动态链接库，从而提高程序的灵活性和可维护性。
 
+------
 
+Learn more:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+1. [使用gcc生成动态库及使用动态库的方法_gcc 动态库 集成-CSDN博客](https://blog.csdn.net/lzg_zone/article/details/83541906)
+2. [GCC 指令详解及动态库、静态库的使用 - MElephant - 博客园](https://www.cnblogs.com/hyacinthLJP/p/16839524.html)
+3. [GCC生成动态链接库（.so文件）：-shared和-fPIC选项 - 心田居士 - 博客园](https://www.cnblogs.com/liuzhenbo/p/11030946.html)
 
 
 
