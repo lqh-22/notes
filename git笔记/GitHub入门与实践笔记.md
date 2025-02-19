@@ -66,9 +66,11 @@
 	分支：当-b为空时，分支可用-表示切换到上一次分支
 	commit_hash:-b为空，commit_hash不为空表示移动HEAD指针与git reset --hard
 	origin/feature-D: 在本地创建分支，以远程仓库的feature-D分支为源
-# git branch [分支] [-a]
+# git branch [-m] [分支/更改分支名] [-a] [--allow-unrelated-histories]
 	分支：创建分支，若为空表示显示当前分支情况
 	-a:若是查看分支情况，表示查看远程和本地仓库的所有分支
+	-m:若要更改当前分支名，则-m表示强制更改当前指针指向的分支名
+	--allow-unrelated-histories:若要合并两个没有共同历史提交的分支，可以强制合并
 1、创建分支、合并分支、删除分支
 	创建分支：
 		git checkout -b feature-A或者

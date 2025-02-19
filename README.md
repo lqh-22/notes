@@ -28,6 +28,7 @@
 - [x] gcc -o得到可执行文件，./运行该可执行文件，如何调试
 - [x] makefile
 - [ ] wsl和vmware
+- [ ] gitflow学习
 
 
 
