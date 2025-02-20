@@ -32,6 +32,9 @@
 
 
 
-软件
+电脑工具软件
 
-1. snipast截图工具
+1. snipast截图工具 https://www.snipaste.com/
+2. utools工具平台 https://www.u-tools.cn/
+3. cursor代码编程工具 https://www.cursor.com/ja
+4. everything文件搜索工具 [下载 - voidtools](https://www.voidtools.com/zh-cn/downloads/) “不如utool好用”
