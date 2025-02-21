@@ -118,20 +118,14 @@ clean:
 1. **定义 VPATH**：
     你可以通过以下方式定义 `VPATH`：
 
-   makefile
-
-   复制
-
    ```
    VPATH = dir1:dir2:dir3
    ```
 
    这里，`dir1`、`dir2` 和 `dir3` 是你希望 Make 查找文件的目录，多个目录之间用冒号 `:` 分隔。
-
+   
 2. **示例**：
     假设你有以下目录结构：
-
-   复制
 
    ```
    src/
@@ -140,12 +134,8 @@ clean:
    include/
        utils.h
    ```
-
+   
    你可以在 Makefile 中这样设置 `VPATH`：
-
-   makefile
-
-   复制
 
    ```
    VPATH = src:include
@@ -155,22 +145,18 @@ clean:
    %.o: %.c
        gcc -c $< -o $@
    ```
-
+   
    在这个例子中，Make 会在 `src` 和 `include` 目录中查找 `.c` 文件和 `.h` 文件。
-
+   
 3. **清除 VPATH**：
     如果需要清除某个模式的搜索路径，可以使用：
-
-   makefile
-
-   复制
 
    ```
    vpath %.c
    ```
 
    这将清除所有与 `.c` 文件相关的搜索路径。
-
+   
 4. **注意事项**
 
    若想要VPATH生效，在命令中使用$<等命令，不能直接执行文件名
@@ -316,6 +302,10 @@ Learn more:
 只会记录用到过的函数
 
 ---
+
+
+
+
 
 
 
