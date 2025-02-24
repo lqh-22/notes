@@ -323,7 +323,63 @@ subsystem:
 其等价于：
 
 ```
-subsystem:
+subsystem:在Makefile中，wildcard函数用于匹配文件名模式，并返回符合该模式的文件列表。它的语法如下：
+$(wildcard pattern)
+
+其中，pattern是一个文件名模式，可以包含通配符*（匹配任意数量的字符）和?（匹配单个字符）。wildcard函数会返回当前目录下所有符合该模式的文件名列表。
+示例
+假设当前目录下有如下文件：
+main.c
+utils.c
+utils.h
+README.md
+
+你可以使用wildcard函数来获取所有.c文件：
+SRC_FILES := $(wildcard *.c)
+
+执行后，SRC_FILES变量的值将是：
+main.c utils.c
+
+常见用法
+
+获取所有源文件：
+SRC_FILES := $(wildcard *.c)
+
+
+获取所有头文件：
+HEADER_FILES := $(wildcard *.h)
+
+
+结合多个模式：
+ALL_FILES := $(wildcard *.c *.h)
+
+
+在多个目录中查找文件：
+SRC_FILES := $(wildcard src/*.c include/*.h)
+
+
+
+注意事项
+
+wildcard函数只在Makefile解析时展开，因此它不会动态地检测文件系统的变化。
+如果没有任何文件匹配指定的模式，wildcard函数将返回空字符串。
+
+示例Makefile
+SRC_FILES := $(wildcard *.c)
+OBJ_FILES := $(SRC_FILES:.c=.o)
+
+all: program
+
+program: $(OBJ_FILES)
+    gcc -o $@ $^
+
+%.o: %.c
+    gcc -c $< -o $@
+
+clean:
+    rm -f $(OBJ_FILES) program
+
+在这个示例中，wildcard函数用于获取所有.c文件，然后通过模式替换生成对应的.o文件列表，最终编译并链接生成可执行文件program。
   $(MAKE) -C subdir
 ```
 
